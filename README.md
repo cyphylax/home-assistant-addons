@@ -11,7 +11,7 @@ This repository contains the following add-ons
 
 1. **Add Repository**: Navigate to **Settings** > **Add-ons** > **Add-on Store**.
 2. **Menu**: Click the three-dot menu in the top right and select **Repositories**.
-3. **URL**: Add `https://gitlab.com/cyphylax/home-assistant-addons`.
+3. **URL**: Add `https://github.com/cyphylax/home-assistant-addons`.
 
 or use the Button below
 

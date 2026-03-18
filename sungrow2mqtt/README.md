@@ -23,7 +23,7 @@ The project uses the register definitions from [mkaiser/Sungrow-SHx-Inverter-Mod
 
 1. **Add Repository**: Navigate to **Settings** > **Add-ons** > **Add-on Store**.
 2. **Menu**: Click the three-dot menu in the top right and select **Repositories**.
-3. **URL**: Add `https://gitlab.com/cyphylax/sungrow2mqtt`.
+3. **URL**: Add `https://github.com/cyphylax/home-assistant-addons`.
 4. **Install**: Search for "Sungrow2MQTT" and click **Install**.
 5. **Configuration**: Adjust the settings (see below) and start the add-on.
 
