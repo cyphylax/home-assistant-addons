@@ -1,0 +1,46 @@
+# https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
+name: Example add-on
+version: "1.0.0"
+slug: example
+description: Example add-on
+url: "https://github.com/home-assistant/addons-example/tree/main/example"
+arch:
+  - aarch64
+  - amd64
+init: false
+map:
+  - share:rw
+options:
+  inverter:
+    host: ""
+    port: 502
+    model: ""
+  mqtt:
+    host: ""
+    port: 1883
+    user: ""
+    passwd: ""
+  scan:
+    level: "STANDARD"
+    interval: 30
+    timeout: 5
+    connection: "Sungrow"
+  smart_meter: false
+  log_level: "INFO"
+schema:
+  inverter:
+    host: str
+    port: port
+    model: str
+  mqtt:
+    host: str
+    port: port
+    user: str
+    passwd: password
+  scan:
+    level: "list(BASIC|STANDARD|DETAIL|ALL)"
+    interval: int(10,600)
+    timeout: int(3,60)
+    connection: "list(Sungrow|Modbus|HTTP)"
+  smart_meter: bool
+  log_level: "list(INFO|WARNING|ERROR|DEBUG)"
