@@ -1,9 +1,8 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
-name: Example add-on
+name: sungrow2mqtt
 version: "1.0.0"
-slug: example
-description: Example add-on
-url: "https://github.com/home-assistant/addons-example/tree/main/example"
+description: This add-on integrates Sungrow SHx inverters into Home Assistant via Modbus TCP using MQTT. It reads register data and automatically provides them as sensors and other entities.
+url: 'https://github.com/cyphylax/home-assistant-addons/tree/main/sungrow2mqtt'
 arch:
   - aarch64
   - amd64
