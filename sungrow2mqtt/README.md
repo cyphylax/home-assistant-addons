@@ -33,24 +33,25 @@ The project uses the register definitions from [mkaiser/Sungrow-SHx-Inverter-Mod
 
 Configuration is done via the "Configuration" tab in the add-on.
 
-### Modbus Settings
-
-| Option | Beschreibung | Standard |
+| Option | Description | Default |
 | :--- | :--- | :--- |
-| `host` | The IP address of the inverter (e.g., the WiNet-S dongle). | - |
-| `port` | The Modbus port. | `502` |
-| `slave` | The Modbus Slave ID of the inverter. | `1` |
-| `timeout` | Timeout for Modbus requests in seconds. | `5` |
-| `battery_max_power` | Maximum battery power in Watts (required for scaling). | `7000` |
-
-### MQTT Settings
-
-| Option | Beschreibung | Standard |
-| :--- | :--- | :--- |
-| `mqtt_host` | The IP address of the MQTT broker. | - |
-| `mqtt_port` | The MQTT port. | `1883` |
-| `mqtt_user` | The MQTT username. | - |
-| `mqtt_passwd` | The MQTT password. | - |
+| **Inverter** | | |
+| `inverter.host` | IP address or hostname of your Sungrow inverter. | `""` |
+| `inverter.port` | Modbus TCP port (usually 502). | `502` |
+| `inverter.model` | Inverter model name (e.g., SH10RT). | `""` |
+| **MQTT** | | |
+| `mqtt.host` | IP address or hostname of your MQTT broker. | `""` |
+| `mqtt.port` | Port of your MQTT broker. | `1883` |
+| `mqtt.user` | Username for MQTT authentication. | `""` |
+| `mqtt.passwd` | Password for MQTT authentication. | `""` |
+| **Scan** | | |
+| `scan.level` | Scan level for registers (`STANDARD`, `BASIC`, or `FULL`). | `STANDARD` |
+| `scan.interval` | Polling interval in seconds. | `30` |
+| `scan.timeout` | Modbus connection timeout in seconds. | `5` |
+| `scan.connection` | Connection type (usually `Modbus`). | `Modbus` |
+| **General** | | |
+| `smart_meter` | Set to `true` if a smart meter is connected to the inverter. | `false` |
+| `log_level` | Logging verbosity (`DEBUG`, `INFO`, `WARNING`, `ERROR`). | `INFO` |
 
 ## Credits & Inspirations
 
