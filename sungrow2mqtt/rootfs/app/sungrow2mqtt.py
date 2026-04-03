@@ -40,7 +40,7 @@ if __name__ == "__main__":
     
     logging_setup(config)
     logging.info(f"*** Sungrow2mqtt ***")
-    logging.info(f"*** Version 0.1 ***")
+    logging.info(f"*** Version 1.0.1 ***")
     logging.info(f"Created by Cyphylax")
     logging.info(f"Logging initialized. Level: {config['log_level']}")
 

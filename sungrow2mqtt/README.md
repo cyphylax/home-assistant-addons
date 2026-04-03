@@ -36,6 +36,8 @@ Configuration is done via the "Configuration" tab in the add-on.
 | `host` | IP address or hostname of your Sungrow inverter. | `""` |
 | `port` | Modbus TCP port (usually 502). | `502` |
 | `slave` | Slave ID of your inverter.| `1` |
+| `connection` | Ignore any registers that are not usable with the WiNET-S/WiNET-S2 module.| `Modbus` |
+
 
 **MQTT**
 | Option | Description | Default |

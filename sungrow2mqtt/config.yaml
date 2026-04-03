@@ -14,6 +14,7 @@ options:
     host: ""
     port: 502
     slave: 1
+    connection: "Modbus"
   mqtt:
     host: ""
     port: 1883
@@ -23,13 +24,13 @@ options:
     level: "FULL"
     interval: 30
     timeout: 5
-  smart_meter: false
   log_level: "INFO"
 schema:
   inverter:
     host: str
     port: port
     slave: int
+    connection: "list(Modbus|WiNET-S)"
   mqtt:
     host: str
     port: port
@@ -39,5 +40,4 @@ schema:
     level: "list(BASIC|STANDARD|FULL)"
     interval: int(10,600)
     timeout: int(3,60)
-  smart_meter: bool
   log_level: "list(INFO|WARNING|ERROR|DEBUG)"
