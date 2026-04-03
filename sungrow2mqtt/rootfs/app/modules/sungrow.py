@@ -3,15 +3,15 @@ from pymodbus.client.sync import ModbusTcpClient
 
 
 class Client:
-    def __init__(self, config_inverter: dict):
+    def __init__(self, config_inverter):
         logging.info('Loading SungrowClient')
         self.client_config = {
             "host": config_inverter['inverter'].get('host'),
             "port": config_inverter['inverter'].get('port'),
-            "timeout": config_inverter['scan'].getint('timeout', 5) if hasattr(config_inverter, 'getint') else int(config_inverter.get('timeout', 5)),
-            "retries": config_inverter['scan'].getint("retries", 3) if hasattr(config_inverter, 'getint') else int(config_inverter.get('retries', 3)),
-            "scan_interval": config_inverter['scan'].getint("scan_interval", 10) if hasattr(config_inverter, 'getint') else int(config_inverter.get('scan_interval', 10)),
-            "connection": config_inverter['scan'].get("connection"),
+            "timeout": config_inverter['scan'].get('timeout', 5), 
+            "retries": config_inverter['scan'].get("retries", 3),
+            "scan_interval": config_inverter['scan'].get("scan_interval", 10),
+            "winet_connection": config_inverter['inverter'].get('winet_connection'),
             "slave": config_inverter['inverter'].get('slave', 1),
             "RetryOnEmpty": False
         }
@@ -23,6 +23,12 @@ class Client:
         logging.debug('Inverter Config Loaded')
 
     def configure_inverter(self):
+        if self.client_config['winet_connection']:
+            logging.info("WiNET-S connection selected, cleanup address lookup to use with WiNET-S.")
+            with open("/app/config/blacklist", "r") as f:
+                b = f.read().replace(' ', '').replace('\n', ',').split(',')
+            blacklist = {b[i]: b[i + 1] for i in range(0, len(b), 2)}
+        
         # Build address lookup table
         for category in self.registers.values():
             if isinstance(category, list):
@@ -30,6 +36,9 @@ class Client:
                     addr = reg.get('address')
                     typ = reg.get('input_type')
                     if addr is not None and typ is not None:
+                        if self.client_config['winet_connection']:
+                            if str(addr) in blacklist and blacklist[str(addr)] == typ:
+                                continue
                         self.address_lookup.setdefault((addr, typ), []).append(reg)
 
         # Clear address lookup if connectet with WiNET-S, as it does not use Modbus registers

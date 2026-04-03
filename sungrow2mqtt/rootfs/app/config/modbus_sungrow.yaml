@@ -1,4 +1,4 @@
-# Release date 2026-02-16
+# Release date 2026-03-09
 #
 # INSTALLATION GUIDE: https://github.com/mkaiser/Sungrow-SHx-Inverter-Modbus-Home-Assistant/blob/main/doc/installation.md
 #
@@ -590,6 +590,7 @@ modbus:
         address: 5740 # reg 5741
         input_type: input
         data_type: int16
+        nan_value: 0x7FFF
         precision: 1
         unit_of_measurement: V
         device_class: voltage
@@ -603,6 +604,7 @@ modbus:
         address: 5741 # reg 5742
         input_type: input
         data_type: int16
+        nan_value: 0x7FFF
         precision: 1
         unit_of_measurement: V
         device_class: voltage
@@ -616,6 +618,7 @@ modbus:
         address: 5742 # reg 5743
         input_type: input
         data_type: int16
+        nan_value: 0x7FFF
         precision: 1
         unit_of_measurement: V
         device_class: voltage
@@ -629,6 +632,7 @@ modbus:
         address: 5743 # reg 5744
         input_type: input
         data_type: uint16
+        nan_value: 0xFFFF
         precision: 2
         unit_of_measurement: A
         device_class: current
@@ -642,6 +646,7 @@ modbus:
         address: 5744 # reg 5745
         input_type: input
         data_type: uint16
+        nan_value: 0xFFFF
         precision: 2
         unit_of_measurement: A
         device_class: current
@@ -655,6 +660,7 @@ modbus:
         address: 5745 # reg 5746
         input_type: input
         data_type: uint16
+        nan_value: 0xFFFF
         precision: 2
         unit_of_measurement: A
         device_class: current
@@ -749,6 +755,7 @@ modbus:
         address: 13007 # reg 13008
         input_type: input
         data_type: int32
+        nan_value: 0x7FFFFFFF
         swap: word
         precision: 0
         unit_of_measurement: W
@@ -764,6 +771,7 @@ modbus:
         address: 13009 # reg 13010
         input_type: input
         data_type: int32
+        nan_value: 0x7FFFFFFF
         swap: word
         precision: 0
         unit_of_measurement: W
@@ -1266,7 +1274,7 @@ modbus:
         input_type: input
         data_type: string
         count: 15
-        scan_interval: *scan_interval_fast
+        scan_interval: *scan_interval_slowest
 
       # Battery Firmware version from register 13280 to 13279 as UTF8 string
       # NOTE: SH3.0-10RS and MG5-6RL are NOT supported
@@ -1727,9 +1735,10 @@ template:
                 {% if dev.startswith('SH') and 'RT' in dev %}
                   {# SH*RT* devices (e.g. SH10RT, SH8.0RT-20, SH8.0RT-V112 or SH10RT-V122) #}
                   {{ (value | float / 10) | int }}
-                {% elif dev.startswith('SH') and 'RS' in dev %}
-                  {# SH*RS* devices (e.g. SH10RS) #}
-                  {{ (value | float / 10) | int }}
+                {# 2026-03-08. Commented, it seems that a factor is not required for RS series, see: #666 and #677 #}
+                {# {% elif dev.startswith('SH') and 'RS' in dev %} #}
+                {#  SH*RS* devices (e.g. SH10RS)  #}
+                {#  {{ (value | float / 10) | int }} #}
                 {% else %}
                   {{ value | int }}
                 {% endif %}
@@ -2299,13 +2308,8 @@ automation:
     alias: "sungrow max export scene sets rated limit"
     description: "When scenes with max export power are activated, set export limit to inverter rated output"
     triggers:
-      - platform: event
-        event_type: call_service
-        event_data:
-          domain: scene
-          service: turn_on
-          service_data:
-            entity_id: scene.set_max_export_power
+      - platform: state
+        entity_id: scene.max_export_power
     conditions: []
     action:
       - service: number.set_value
@@ -2319,13 +2323,8 @@ automation:
     alias: "sungrow self consumption mode max battery discharge scene sets rated limit"
     description: "When scenes with max battery discharge are activated, set battery discharge limit to sungrow_modbus_battery_max_power defined in secret"
     triggers:
-      - platform: event
-        event_type: call_service
-        event_data:
-          domain: scene
-          service: turn_on
-          service_data:
-            entity_id: scene.self_consumption_mode_max_battery_discharge
+      - platform: state
+        entity_id: scene.self_consumption_mode_max_battery_discharge
     conditions: []
     action:
       - service: number.set_value
