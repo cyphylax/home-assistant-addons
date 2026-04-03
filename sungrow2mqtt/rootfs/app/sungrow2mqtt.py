@@ -40,8 +40,8 @@ if __name__ == "__main__":
     
     logging_setup(config)
     logging.info(f"*** Sungrow2mqtt ***")
-    logging.info(f"*** Version 1.0.1 ***")
-    logging.info(f"Created by Cyphylax")
+    logging.info(f"*** Version 1.0.2 ***")
+    logging.info(f"*** Created by Cyphylax ***")
     logging.info(f"Logging initialized. Level: {config['log_level']}")
 
     ### __init__ ###
@@ -68,9 +68,9 @@ if __name__ == "__main__":
             for value, regs in inverter.address_lookup.items():
                 for reg in regs:
                     if inverter.load_registers(reg):
-                        logging.debug(f"Loaded {len(reg)} registers for range{range}")
+                        logging.debug(f"Loaded {len(reg)} registers for range{reg['name']}")
                     else:
-                        logging.warning(f"Failed to load registers for range {range}")
+                        logging.warning(f"Failed to load registers for range {reg['name']}")
 
             export.publish(export.config['topic'], json.dumps(inverter.last_scrape))
             topic = export.config['topic'] + "/status"

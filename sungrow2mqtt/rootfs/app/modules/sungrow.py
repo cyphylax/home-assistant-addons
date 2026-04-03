@@ -11,7 +11,7 @@ class Client:
             "timeout": config_inverter['scan'].getint('timeout', 5) if hasattr(config_inverter, 'getint') else int(config_inverter.get('timeout', 5)),
             "retries": config_inverter['scan'].getint("retries", 3) if hasattr(config_inverter, 'getint') else int(config_inverter.get('retries', 3)),
             "scan_interval": config_inverter['scan'].getint("scan_interval", 10) if hasattr(config_inverter, 'getint') else int(config_inverter.get('scan_interval', 10)),
-            "connection": config_inverter['scan'].get("connection"),
+            "winet_connection": config_inverter['inverter'].getboolean('winet_connection'),
             "slave": config_inverter['inverter'].get('slave', 1),
             "RetryOnEmpty": False
         }
@@ -33,25 +33,22 @@ class Client:
                         self.address_lookup.setdefault((addr, typ), []).append(reg)
 
         # Clear address lookup if connectet with WiNET-S, as it does not use Modbus registers
-        if self.client_config['connection'] == "WiNET-S":
+        if self.client_config['winet_connection']:
             logging.info("WiNET-S connection selected, cleanup address lookup to use with WiNET-S.")
-            with open("config/winet", "r") as f:
+            with open("config/blacklist", "r") as f:
                 blacklist = f.read().splitlines()
             for value in self.address_lookup:
                 if value[0] in blacklist:
                     del self.address_lookup[value]
             return
 
-        if self.client_config['connection'].lower() == "modbus":
-            logging.info(f"Configuring Modbus TCP client for {self.client_config['host']}:{self.client_config['port']}")
-            self.client = ModbusTcpClient(
-                self.client_config['host'],
-                port=self.client_config['port'],
-                timeout=self.client_config['timeout']
-            )
-        else:
-            logging.error(f"Unsupported connection type: {self.client_config['connection']}")
-            raise ValueError(f"Unsupported connection type: {self.client_config['connection']}")
+        
+        logging.info(f"Configuring Modbus TCP client for {self.client_config['host']}:{self.client_config['port']}")
+        self.client = ModbusTcpClient(
+            self.client_config['host'],
+            port=self.client_config['port'],
+            timeout=self.client_config['timeout']
+        )
 
         if not self.client.connect():
             logging.error("Failed to connect to Modbus server")
