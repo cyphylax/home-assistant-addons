@@ -41,16 +41,6 @@ class Client:
                                 continue
                         self.address_lookup.setdefault((addr, typ), []).append(reg)
 
-        # Clear address lookup if connectet with WiNET-S, as it does not use Modbus registers
-        if self.client_config['connection'] == "WiNET-S":
-            logging.info("WiNET-S connection selected, cleanup address lookup to use with WiNET-S.")
-            with open("config/winet", "r") as f:
-                blacklist = f.read().splitlines()
-            for value in self.address_lookup:
-                if value[0] in blacklist:
-                    del self.address_lookup[value]
-            return
-
         
         logging.info(f"Configuring Modbus TCP client for {self.client_config['host']}:{self.client_config['port']}")
         self.client = ModbusTcpClient(
