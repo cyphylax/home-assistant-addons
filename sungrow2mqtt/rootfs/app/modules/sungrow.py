@@ -42,16 +42,13 @@ class Client:
                     del self.address_lookup[value]
             return
 
-        if self.client_config['connection'].lower() == "modbus":
-            logging.info(f"Configuring Modbus TCP client for {self.client_config['host']}:{self.client_config['port']}")
-            self.client = ModbusTcpClient(
-                self.client_config['host'],
-                port=self.client_config['port'],
-                timeout=self.client_config['timeout']
-            )
-        else:
-            logging.error(f"Unsupported connection type: {self.client_config['connection']}")
-            raise ValueError(f"Unsupported connection type: {self.client_config['connection']}")
+        
+        logging.info(f"Configuring Modbus TCP client for {self.client_config['host']}:{self.client_config['port']}")
+        self.client = ModbusTcpClient(
+            self.client_config['host'],
+            port=self.client_config['port'],
+            timeout=self.client_config['timeout']
+        )
 
         if not self.client.connect():
             logging.error("Failed to connect to Modbus server")
