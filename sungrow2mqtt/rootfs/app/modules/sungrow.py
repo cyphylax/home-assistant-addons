@@ -11,7 +11,7 @@ class Client:
             "timeout": config_inverter['scan'].getint('timeout', 5) if hasattr(config_inverter, 'getint') else int(config_inverter.get('timeout', 5)),
             "retries": config_inverter['scan'].getint("retries", 3) if hasattr(config_inverter, 'getint') else int(config_inverter.get('retries', 3)),
             "scan_interval": config_inverter['scan'].getint("scan_interval", 10) if hasattr(config_inverter, 'getint') else int(config_inverter.get('scan_interval', 10)),
-            "connection": config_inverter['scan'].get("connection", "modbus"),
+            "connection": config_inverter['scan'].get("connection"),
             "slave": config_inverter['inverter'].get('slave', 1),
             "RetryOnEmpty": False
         }
@@ -24,7 +24,6 @@ class Client:
 
     def configure_inverter(self):
         # Build address lookup table
-        self.address_lookup = {}
         for category in self.registers.values():
             if isinstance(category, list):
                 for reg in category:
@@ -33,6 +32,15 @@ class Client:
                     if addr is not None and typ is not None:
                         self.address_lookup.setdefault((addr, typ), []).append(reg)
 
+        # Clear address lookup if connectet with WiNET-S, as it does not use Modbus registers
+        if self.client_config['connection'].lower() == "wi-net-s":
+            logging.info("WiNET-S connection selected, cleanup address lookup to use with WiNET-S.")
+            with open("config/winet", "r") as f:
+                blacklist = f.read().splitlines()
+            for value in self.address_lookup:
+                if value[0] in blacklist:
+                    del self.address_lookup[value]
+            return
 
         if self.client_config['connection'].lower() == "modbus":
             logging.info(f"Configuring Modbus TCP client for {self.client_config['host']}:{self.client_config['port']}")
@@ -72,10 +80,6 @@ class Client:
         register_type = register.get('input_type')
         start = register.get('address')
         count = register.get('count',100)
-
-
-        if start == 5213:
-            logging.debug("Adress 5213 is scanning")
 
         if not register_type or start is None:
             logging.warning("Missing input_type or address in register")
