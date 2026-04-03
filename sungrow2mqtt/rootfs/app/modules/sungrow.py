@@ -25,7 +25,7 @@ class Client:
     def configure_inverter(self):
         if self.client_config['winet_connection']:
             logging.info("WiNET-S connection selected, cleanup address lookup to use with WiNET-S.")
-            with open("home-assistant-addons/sungrow2mqtt/rootfs/app/config/blacklist", "r") as f:
+            with open("config/blacklist", "r") as f:
                 b = f.read().replace(' ', '').replace('\n', ',').split(',')
             blacklist = {b[i]: b[i + 1] for i in range(0, len(b), 2)}
         
