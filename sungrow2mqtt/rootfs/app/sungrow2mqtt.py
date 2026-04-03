@@ -37,7 +37,7 @@ if __name__ == "__main__":
         logging.error(f"Config file not found: {config_path}")
         exit(1)
     config = json.load(open(config_path))
-    
+
     logging_setup(config)
     logging.info(f"*** Sungrow2mqtt ***")
     logging.info(f"*** Version 1.0.2 ***")
