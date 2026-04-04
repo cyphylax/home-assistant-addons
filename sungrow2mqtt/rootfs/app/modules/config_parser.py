@@ -1,7 +1,6 @@
 import yaml
 import logging
 import requests
-import re
 
 registeryml_remote = "https://raw.githubusercontent.com/mkaiser/Sungrow-SHx-Inverter-Modbus-Home-Assistant/refs/heads/main/modbus_sungrow.yaml"
 

@@ -3,6 +3,8 @@
 # Sungrow2MQTT Home Assistant Add-on
 
 ## Changelog
+### 1.0.3
+- Update documentation
 
 ### 1.0.2
 - Fix some bugs

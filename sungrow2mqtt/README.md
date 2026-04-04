@@ -33,19 +33,19 @@ Configuration is done via the "Configuration" tab in the add-on.
 **Inverter**
 | Option | Description | Default |
 | :--- | :--- | :--- |
-| `host` | IP address or hostname of your Sungrow inverter. | `""` |
+| `host` | IP address or hostname of your Sungrow inverter. | `-` |
 | `port` | Modbus TCP port (usually 502). | `502` |
 | `slave` | Slave ID of your inverter.| `1` |
-| `connection` | Ignore any registers that are not usable with the WiNET-S/WiNET-S2 module.| `Modbus` |
+| `winet_connection` | Ignore any registers that are not usable with the WiNET-S/WiNET-S2 module.| `false` |
 
 
 **MQTT**
 | Option | Description | Default |
 | :--- | :--- | :--- |
-| `host` | IP address or hostname of your MQTT broker. | `""` |
+| `host` | IP address or hostname of your MQTT broker. | `-` |
 | `port` | Port of your MQTT broker. | `1883` |
-| `user` | Username for MQTT authentication. | `""` |
-| `passwd` | Password for MQTT authentication. | `""` |
+| `user` | Username for MQTT authentication. | `-` |
+| `passwd` | Password for MQTT authentication. | `-` |
 
 **Scan**
 | Option | Description | Default |
@@ -63,8 +63,8 @@ Configuration is done via the "Configuration" tab in the add-on.
 ## Credits & Inspirations
 
 *   [SunGather](https://github.com/bohdan-s/SunGather)
-*   [SungrowClient](https://github.com/m-reuter/SungrowClient)
-*   [ModbusTCP2MQTT](https://github.com/m-reuter/ModbusTCP2MQTT)
+*   [SungrowClient](https://github.com/bohdan-s/SungrowClient)
+*   [ModbusTCP2MQTT](https://github.com/mazocode/modbus2mqtt)
 *   [mkaiser/Sungrow-SHx-Inverter-Modbus-Home-Assistant](https://github.com/mkaiser/Sungrow-SHx-Inverter-Modbus-Home-Assistant)
 
 ---

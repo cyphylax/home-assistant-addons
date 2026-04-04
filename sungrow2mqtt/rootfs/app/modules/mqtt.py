@@ -16,7 +16,7 @@ class Client:
 
         self.config = {
             "host": self.raw_config['mqtt'].get("host"),
-            "port": self.raw_config['mqtt'].getint("port", 1883) if hasattr(self.raw_config, 'getint') else int(self.raw_config.get("port", 1883)),
+            "port": self.raw_config['mqtt'].get("port", 1883),
             "client_id": self.raw_config['mqtt'].get('client_id', f'{self.serial_number}'),
             "topic": self.raw_config['mqtt'].get('topic', f"Sungrow/{self.serial_number}"),
             "username": self.raw_config['mqtt'].get("user"),
@@ -30,9 +30,6 @@ class Client:
 
         # MQTT Client erstellen
         self.mqtt_client = mqtt.Client()
-        # self.mqtt_client.on_connect = mqtt
-        # self.mqtt_client.on_disconnect = mqtt.Client.on_disconnect
-        # self.mqtt_client.on_publish = mqtt.Client.on_publish
 
         # Authentifizierung
 
