@@ -5,7 +5,7 @@
 ## Add-ons
 This repository contains the following add-ons
 
-### [Sungrow2MQTT](./sungrow2mqtt/README.md)
+### [Sungrow2MQTT](https://github.com/cyphylax/sungrow2mqtt)
 
 ## Installation
 
