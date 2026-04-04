@@ -1,0 +1,3 @@
+[submodule "sungrow2mqtt"]
+	path = sungrow2mqtt
+	url = https://github.com/cyphylax/sungrow2mqtt.git
